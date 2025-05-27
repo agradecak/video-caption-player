@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { VideoPlayerComponent } from "./video-player/video-player.component";
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [VideoPlayerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
