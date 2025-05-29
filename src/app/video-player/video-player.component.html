@@ -27,22 +27,16 @@
         <div class="transcript-section">
             <h2>Transkript</h2>
             <div class="transcript-container">
-                <div class="transcript-item">
-                    <div class="timestamp">
-                        00:00
+                @for(caption of captions; track caption.id) {
+                    <div class="transcript-item">
+                        <div class="timestamp">
+                            {{ caption.startTime }}
+                        </div>
+                        <div class="caption-text">
+                            {{ caption.text }}
+                        </div>
                     </div>
-                    <div class="caption-text">
-                        Caption text example
-                    </div>
-                </div>
-                <div class="transcript-item">
-                    <div class="timestamp">
-                        00:20
-                    </div>
-                    <div class="caption-text">
-                        Caption text example 2
-                    </div>
-                </div>
+                }
            </div>
         </div>
     </div>
