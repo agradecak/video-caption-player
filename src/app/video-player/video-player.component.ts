@@ -45,6 +45,7 @@ export class VideoPlayerComponent {
 
   switchVideo(videoName: string) {
     this.currentVideo = videoName;
+    this.loadCaptions();
     this.loadVideo();
   }
 
