@@ -10,9 +10,12 @@
                     Your browser does not support the video tag.
                 </video>
 
-                <div class="caption-overlay">
-                    <div>Video player caption text example</div>
-                </div>
+                @if (currentCaption) {
+                    <div class="caption-overlay">
+                        {{ currentCaption.text }}
+                    </div>
+                }
+
             </div>
             <div class="video-buttons">
                 @for (video of videoOptions; track video.value) {

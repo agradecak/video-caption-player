@@ -12,7 +12,7 @@ export class VideoPlayerComponent {
   @ViewChild('transcriptContainer', { static: true }) transcriptContainer!: ElementRef<HTMLDivElement>;
 
   captions: Caption[] = [];
-  currentCaptionId: number | null = null;
+  currentCaption: Caption | null = null;
 
   currentVideo: string = 'video_1';
   videoOptions = [
@@ -42,10 +42,10 @@ export class VideoPlayerComponent {
       currentTime >= caption.startTime && currentTime <= caption.endTime
     );
 
-    if (activeCaption && activeCaption.id != this.currentCaptionId) {
-      this.currentCaptionId = activeCaption.id;
+    if (activeCaption && activeCaption.id != this.currentCaption?.id) {
+      this.currentCaption = activeCaption;
     } else if (!activeCaption) {
-       this.currentCaptionId = null;
+       this.currentCaption = null;
     }
   }
 
@@ -79,6 +79,6 @@ export class VideoPlayerComponent {
   }
 
   isActiveCaption(captionId: number): boolean {
-    return this.currentCaptionId === captionId;
+    return this.currentCaption?.id === captionId;
   }
 }
