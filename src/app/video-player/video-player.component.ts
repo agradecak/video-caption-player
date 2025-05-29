@@ -9,8 +9,10 @@ import { Caption, SrtParserService } from '../srt-parser.service';
 })
 export class VideoPlayerComponent {
   @ViewChild('videoElement', { static: true }) videoElement!: ElementRef<HTMLVideoElement>;
+  @ViewChild('transcriptContainer', { static: true }) transcriptContainer!: ElementRef<HTMLDivElement>;
 
   captions: Caption[] = [];
+  currentCaptionId: number | null = null;
 
   currentVideo: string = 'video_1';
   videoOptions = [
@@ -22,6 +24,29 @@ export class VideoPlayerComponent {
   ngOnInit() {
     this.loadCaptions();
     this.loadVideo();
+    this.setupVideoEventListeners();
+  }
+
+  setupVideoEventListeners() {
+    const video = this.videoElement.nativeElement;
+
+    video.addEventListener('timeupdate', () => {
+      this.updateCurrentCaption();
+    });
+  }
+
+  updateCurrentCaption() {
+    const currentTime = this.videoElement.nativeElement.currentTime;
+
+    const activeCaption = this.captions.find(caption => 
+      currentTime >= caption.startTime && currentTime <= caption.endTime
+    );
+
+    if (activeCaption && activeCaption.id != this.currentCaptionId) {
+      this.currentCaptionId = activeCaption.id;
+    } else if (!activeCaption) {
+       this.currentCaptionId = null;
+    }
   }
 
   async loadCaptions() {
@@ -53,5 +78,7 @@ export class VideoPlayerComponent {
     this.videoElement.nativeElement.currentTime = time;
   }
 
-
+  isActiveCaption(captionId: number): boolean {
+    return this.currentCaptionId === captionId;
+  }
 }
