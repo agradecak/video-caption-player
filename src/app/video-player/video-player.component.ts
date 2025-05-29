@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { Caption, SrtParserService } from '../srt-parser.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { Caption, SrtParserService } from '../srt-parser.service';
 })
 export class VideoPlayerComponent {
   @ViewChild('videoElement', { static: true }) videoElement!: ElementRef<HTMLVideoElement>;
-  @ViewChild('transcriptContainer', { static: true }) transcriptContainer!: ElementRef<HTMLDivElement>;
+  @ViewChildren('transcriptItem') transcriptItems!: QueryList<ElementRef>;
 
   captions: Caption[] = [];
   currentCaption: Caption | null = null;
@@ -19,6 +19,7 @@ export class VideoPlayerComponent {
     { value: 'video_1', label: 'Clip 1' },
     { value: 'video_2', label: 'Clip 2' }
   ]
+  
   constructor(private srtParser: SrtParserService) {}
 
   ngOnInit() {
@@ -44,8 +45,28 @@ export class VideoPlayerComponent {
 
     if (activeCaption && activeCaption.id != this.currentCaption?.id) {
       this.currentCaption = activeCaption;
+      this.scrollToActiveCaption();
     } else if (!activeCaption) {
        this.currentCaption = null;
+    }
+  }
+
+  scrollToActiveCaption() {
+    if (!this.currentCaption) return;
+
+    const captionIndex = this.captions.findIndex(caption => caption.id === this.currentCaption!.id);
+    
+    if (captionIndex !== -1) {
+      const transcriptItemsArray = this.transcriptItems.toArray();
+      const activeElement = transcriptItemsArray[captionIndex];
+      
+      if (activeElement) {
+        activeElement.nativeElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start', // Position at the top of the container
+          inline: 'nearest'
+        });
+      }
     }
   }
 
@@ -74,7 +95,7 @@ export class VideoPlayerComponent {
     this.loadVideo();
   }
 
-    seekToTime(time: number) {
+  seekToTime(time: number) {
     this.videoElement.nativeElement.currentTime = time;
   }
 

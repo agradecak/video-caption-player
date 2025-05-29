@@ -15,7 +15,6 @@
                         {{ currentCaption.text }}
                     </div>
                 }
-
             </div>
             <div class="video-buttons">
                 @for (video of videoOptions; track video.value) {
@@ -30,8 +29,9 @@
         <div class="transcript-section">
             <h2>Transkript</h2>
             <div class="transcript-container">
-                @for(caption of captions; track caption.id) {
-                    <div class="transcript-item"
+                @for (caption of captions; track caption.id) {
+                    <div #transcriptItem
+                        class="transcript-item"
                         [class.active]="isActiveCaption(caption.id)"
                         (click)="seekToTime(caption.startTime)">
                         <div class="timestamp">
