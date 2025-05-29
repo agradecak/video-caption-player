@@ -81,4 +81,10 @@ export class VideoPlayerComponent {
   isActiveCaption(captionId: number): boolean {
     return this.currentCaption?.id === captionId;
   }
+
+  formatDisplayTime(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  }
 }
