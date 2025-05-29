@@ -3,10 +3,10 @@
         <div class="video-section">
             <div class="video-container">
                 <video
+                    #videoElement
                     class="video-player"
                     controls
-                    preload="metadata"
-                    src="video_1/clip.mp4">
+                    preload="metadata">
                     Your browser does not support the video tag.
                 </video>
 
@@ -15,14 +15,13 @@
                 </div>
             </div>
             <div class="video-buttons">
-                <button
-                    class="video-button">
-                    Clip 1
-                </button>
-                <button
-                    class="video-button">
-                    Clip 2
-                </button>
+                @for (video of videoOptions; track video.value) {
+                    <button
+                        class="video-button"
+                        (click)="switchVideo(video.value)">
+                        {{ video.label }}
+                    </button>
+                }
             </div>
         </div>
         <div class="transcript-section">
