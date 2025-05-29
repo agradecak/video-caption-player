@@ -48,5 +48,9 @@ export class VideoPlayerComponent {
     this.loadVideo();
   }
 
+    seekToTime(time: number) {
+    this.videoElement.nativeElement.currentTime = time;
+  }
+
 
 }

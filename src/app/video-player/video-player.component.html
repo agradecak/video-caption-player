@@ -28,7 +28,8 @@
             <h2>Transkript</h2>
             <div class="transcript-container">
                 @for(caption of captions; track caption.id) {
-                    <div class="transcript-item">
+                    <div class="transcript-item"
+                        (click)="seekToTime(caption.startTime)">
                         <div class="timestamp">
                             {{ caption.startTime }}
                         </div>
