@@ -1,9 +1,11 @@
 import { Component, ElementRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
-import { Caption, SrtParserService } from '../srt-parser.service';
+import { SrtParserService } from '../services/srt-parser.service';
+import { CaptionTimePipe } from '../pipes/caption-time.pipe';
+import { Caption } from '../interfaces/caption';
 
 @Component({
   selector: 'app-video-player',
-  imports: [],
+  imports: [CaptionTimePipe],
   templateUrl: './video-player.component.html',
   styleUrl: './video-player.component.scss'
 })
@@ -63,7 +65,7 @@ export class VideoPlayerComponent {
       if (activeElement) {
         activeElement.nativeElement.scrollIntoView({
           behavior: 'smooth',
-          block: 'start', // Position at the top of the container
+          block: 'start',
           inline: 'nearest'
         });
       }
@@ -101,11 +103,5 @@ export class VideoPlayerComponent {
 
   isActiveCaption(captionId: number): boolean {
     return this.currentCaption?.id === captionId;
-  }
-
-  formatDisplayTime(seconds: number): string {
-    const minutes = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   }
 }

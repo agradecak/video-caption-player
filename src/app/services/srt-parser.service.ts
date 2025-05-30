@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-
-export interface Caption {
-  id: number;
-  startTime: number;
-  endTime: number;
-  text: string;
-}
+import { Caption } from '../interfaces/caption';
 
 @Injectable({
   providedIn: 'root'
